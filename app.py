@@ -11,7 +11,7 @@ user_input = st.text_area("💬 Enter your topic:")
 # Style selection
 style = st.selectbox(
     "Style:",
-    ["Formal", "Dry", "Witty", "Dark", "Romantic", "Effervescent", "Cartoonish", "Shy", "Camp", "Brash"]
+    ["Formal", "Dry", "Witty", "Dark", "Romantic", "Effervescent", "Cartoonish", "Shy", "Camp", "Brash", "Rap"]
 )
 
 # Button to trigger AI agents
