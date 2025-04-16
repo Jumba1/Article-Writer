@@ -5,20 +5,17 @@ import openai
 st.set_page_config(page_title="Multi-Agent AI Assistant")
 st.title("🤖 Article Writer AI Assistant")
 
-# User API key and query input
-api_key = st.text_input("🔐 OpenAI API Key", type="password")
+# User query input
 user_input = st.text_area("💬 Enter your topic:")
 
 # Button to trigger AI agents
 if st.button("🚀 Run Agents"):
 
-    # Validate inputs
-    if not api_key:
-        st.warning("Please enter your OpenAI API key.")
-    elif not user_input:
+    # Validate input
+    if not user_input:
         st.warning("Please enter a topic.")
     else:
-        client = openai.OpenAI(api_key=api_key)
+        client = openai.OpenAI(api_key=st.secrets["openai_api_key"])
 
         # Define agents and their unique instructions
         agents = [
