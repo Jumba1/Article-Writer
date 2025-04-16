@@ -9,7 +9,7 @@ st.title("🤖 Article Writer AI Assistant")
 user_input = st.text_area("💬 Enter your topic:")
 
 # Button to trigger AI agents
-if st.button("🚀 Run Agents"):
+if st.button("🚀 Write It"):
 
     # Validate input
     if not user_input:
