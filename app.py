@@ -8,6 +8,12 @@ st.title("🤖 Article Writer AI Assistant")
 # User query input
 user_input = st.text_area("💬 Enter your topic:")
 
+# Style selection
+style = st.selectbox(
+    "Style:",
+    ["Formal", "Dry", "Witty", "Dark", "Romantic", "Effervcescent"]
+)
+
 # Button to trigger AI agents
 if st.button("🚀 Write It"):
 
@@ -21,7 +27,7 @@ if st.button("🚀 Write It"):
         agents = [
             {
                 "name": "Article Writer",
-                "prompt": "You are a skilled article and blog writer. Write an informative, well reasoned piece suitable for a linkedin-length article on the given topic."
+                "prompt": f"You are a skilled article and blog writer. Write an informative, well reasoned piece suitable for a linkedin-length article on the given topic. Write in a {style} style."
             }
         ]
 
