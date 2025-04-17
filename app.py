@@ -72,7 +72,7 @@ if "reply" in st.session_state and st.session_state["reply"]:
         logging.info("Sending text to ElevenLabs for TTS.")
         # ElevenLabs API endpoint and headers
         api_key = st.secrets["elevenlabs_api_key"]
-        voice_id = "EXAVITQu4vr4xnSDxMaL"  # Default voice, can be customized
+        voice_id = "pqHfZKP75CvOlQylNhV4"  # Bill
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
         headers = {
             "xi-api-key": api_key,
