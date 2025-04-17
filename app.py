@@ -1,5 +1,13 @@
 import streamlit as st
 import openai
+import logging
+
+# Enable logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler()]
+)
 
 # Web App Title
 st.set_page_config(page_title="Multi-Agent AI Assistant")
@@ -15,12 +23,15 @@ style = st.selectbox(
 )
 
 # Button to trigger AI agents
+logging.info("App started.")
+
 if st.button("🚀 Write It"):
 
     # Validate input
     if not user_input:
         st.warning("Please enter a topic.")
     else:
+        logging.info("Generating article with topic: %s and style: %s", user_input, style)
         client = openai.OpenAI(api_key=st.secrets["openai_api_key"])
 
         # Define agents and their unique instructions
@@ -42,17 +53,21 @@ if st.button("🚀 Write It"):
                             {"role": "user", "content": user_input}
                         ]
                     )
+                    logging.info("OpenAI API response received.")
                     reply = response.choices[0].message.content
+                    logging.info("Article generated successfully.")
                     st.session_state["reply"] = reply
                     st.subheader(f"{agent['name']} says:")
                     st.write(reply)
                 except Exception as e:
+                    logging.error(f"{agent['name']} encountered an error: {str(e)}")
                     st.error(f"{agent['name']} encountered an error: {str(e)}")
 
 # Show Read Aloud button if a reply exists
 if "reply" in st.session_state and st.session_state["reply"]:
     if st.button("🔊 Read Aloud"):
         import requests
+        logging.info("Sending text to ElevenLabs for TTS.")
         # ElevenLabs API endpoint and headers
         api_key = st.secrets["elevenlabs_api_key"]
         voice_id = "EXAVITQu4vr4xnSDxMaL"  # Default voice, can be customized
@@ -71,6 +86,8 @@ if "reply" in st.session_state and st.session_state["reply"]:
         response = requests.post(url, headers=headers, json=data)
         if response.status_code == 200:
             audio_bytes = response.content
+            logging.info("Audio received from ElevenLabs and played in app.")
             st.audio(audio_bytes, format="audio/mp3")
         else:
+            logging.error("Text-to-speech failed: " + response.text)
             st.error("Text-to-speech failed: " + response.text)
