@@ -47,7 +47,7 @@ if st.button("🚀 Write It"):
             with st.spinner(f"{agent['name']} is creating content..."):
                 try:
                     response = client.chat.completions.create(
-                        model="gpt-4o",
+                        model="gpt-4o-mini",
                         messages=[
                             {"role": "system", "content": agent["prompt"]},
                             {"role": "user", "content": user_input}
