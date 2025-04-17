@@ -63,8 +63,10 @@ if st.button("🚀 Write It"):
                     logging.error(f"{agent['name']} encountered an error: {str(e)}")
                     st.error(f"{agent['name']} encountered an error: {str(e)}")
 
-# Show Read Aloud button if a reply exists
+# Always show the AI reply and Read Aloud button if a reply exists
 if "reply" in st.session_state and st.session_state["reply"]:
+    st.subheader("Article Writer says:")
+    st.write(st.session_state["reply"])
     if st.button("🔊 Read Aloud"):
         import requests
         logging.info("Sending text to ElevenLabs for TTS.")
