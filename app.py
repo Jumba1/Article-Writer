@@ -10,8 +10,8 @@ logging.basicConfig(
 )
 
 # Web App Title
-st.set_page_config(page_title="Multi-Agent AI Assistant")
-st.title("🤖 Article Writer AI Assistant")
+st.set_page_config(page_title="Jim's AI Article Writer")
+st.title("🤖 Jim's AI Article Writer")
 
 # User query input
 user_input = st.text_area("💬 Enter your topic:")
