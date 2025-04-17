@@ -43,32 +43,34 @@ if st.button("🚀 Write It"):
                         ]
                     )
                     reply = response.choices[0].message.content
+                    st.session_state["reply"] = reply
                     st.subheader(f"{agent['name']} says:")
                     st.write(reply)
-                    # Add Read Aloud button after displaying the reply
-                    if st.button("🔊 Read Aloud"):
-                        import requests
-                        import base64
-                        # ElevenLabs API endpoint and headers
-                        api_key = st.secrets["elevenlabs_api_key"]
-                        voice_id = "EXAVITQu4vr4xnSDxMaL"  # Default voice, can be customized
-                        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
-                        headers = {
-                            "xi-api-key": api_key,
-                            "Content-Type": "application/json"
-                        }
-                        data = {
-                            "text": reply,
-                            "voice_settings": {
-                                "stability": 0.5,
-                                "similarity_boost": 0.75
-                            }
-                        }
-                        response = requests.post(url, headers=headers, json=data)
-                        if response.status_code == 200:
-                            audio_bytes = response.content
-                            st.audio(audio_bytes, format="audio/mp3")
-                        else:
-                            st.error("Text-to-speech failed: " + response.text)
                 except Exception as e:
                     st.error(f"{agent['name']} encountered an error: {str(e)}")
+
+# Show Read Aloud button if a reply exists
+if "reply" in st.session_state and st.session_state["reply"]:
+    if st.button("🔊 Read Aloud"):
+        import requests
+        # ElevenLabs API endpoint and headers
+        api_key = st.secrets["elevenlabs_api_key"]
+        voice_id = "EXAVITQu4vr4xnSDxMaL"  # Default voice, can be customized
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+        headers = {
+            "xi-api-key": api_key,
+            "Content-Type": "application/json"
+        }
+        data = {
+            "text": st.session_state["reply"],
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75
+            }
+        }
+        response = requests.post(url, headers=headers, json=data)
+        if response.status_code == 200:
+            audio_bytes = response.content
+            st.audio(audio_bytes, format="audio/mp3")
+        else:
+            st.error("Text-to-speech failed: " + response.text)
